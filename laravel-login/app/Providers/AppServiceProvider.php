@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace Learnlaravel\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
