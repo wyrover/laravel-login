@@ -74,11 +74,12 @@ var elixir = require('laravel-elixir');
 elixir(function(mix) {
     var bpath = 'resources/assets/vendor/bootstrap-sass/assets';
     var jqueryPath = 'resources/assets/vendor/jquery';
-    mix.sass('app.scss')
-        .copy(jqueryPath + 'dist/jquery.min.js', 'public/assets/js')
+    mix.sass('app.scss', 'public/assets/css')
+        .copy(jqueryPath + '/dist/jquery.min.js', 'public/assets/js')
         .copy(bpath + '/fonts', 'public/assets/fonts')
         .copy(bpath + '/javascripts/bootstrap.min.js', 'public/assets/js');
 });
+
 
 
 ```
@@ -86,7 +87,7 @@ elixir(function(mix) {
 ## 5. 修改 \resources\assets\sass\app.scss
 
 ```
-// @import "resources/assets/vendor/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "resources/assets/vendor/bootstrap-sass/assets/stylesheets/bootstrap";
 ```
 
 
@@ -242,3 +243,5 @@ class AuthController extends Controller
 ## other
 
 -  https://bhavyanshu.me/tutorials/easy-user-registration-and-authentication-in-laravel-5/09/24/2015/
+-  http://laravelacademy.org/post/1258.html
+-  https://phphub.org/topics/804
