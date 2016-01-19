@@ -5,8 +5,12 @@ namespace Learnlaravel\Http\Controllers\Auth;
 use Learnlaravel\User;
 use Validator;
 use Learnlaravel\Http\Controllers\Controller;
+use Learnlaravel\Http\Requests\Auth\LoginRequest;
+use Learnlaravel\Http\Requests\Auth\RegisterRequest;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+
 
 class AuthController extends Controller
 {
@@ -23,21 +27,26 @@ class AuthController extends Controller
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
+    protected $user;
+    protected $auth;
+
     /**
      * Where to redirect users after login / registration.
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    //protected $redirectTo = '/home';
 
     /**
      * Create a new authentication controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Guard $auth, User $user)
     {
-        $this->middleware('guest', ['except' => 'logout']);
+        $this->user = $user;
+        $this->auth = $auth;
+        $this->middleware('guest', ['except' => 'getLogout']);
     }
 
     /**
@@ -68,5 +77,42 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    protected function getLogin()
+    {
+        return View('users.login');
+    }
+
+    protected function postLogin(LoginRequest $request)
+    {
+        if ($this->auth->attempt($request->only('email', 'password'))) {
+            //return "logined";
+            return redirect()->route('dashboard');
+        }
+ 
+        return redirect('users/login')->withErrors([
+            'email' => 'The email or the password is invalid. Please try again.',
+        ]);
+    }
+
+    protected function getRegister()
+    {
+        return View('users.register');
+    }
+
+    protected function postRegister(RegisterRequest $request)
+    {
+        $this->user->name = $request->name;
+        $this->user->email = $request->email;
+        $this->user->password = bcrypt($request->password);
+        $this->user->save();
+        return redirect('users/login');
+    }
+
+    protected function getLogout()
+    {
+        $this->auth->logout();
+        return redirect('users/login');
     }
 }
