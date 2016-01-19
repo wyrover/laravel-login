@@ -2,6 +2,8 @@
 
 laravel 5 的注册/登录实践
 
+本例子使用 laravel 5.2
+
 ## 1. 创建 laravel 工程
 
 ```
@@ -112,9 +114,9 @@ Route::post('users/register', 'Auth\AuthController@postRegister');
 Route::group(['middleware' => 'auth'], function()
 {
     Route::get('users/dashboard', array('as'=>'dashboard', function()
-	{
-	return View('users.dashboard');
-	}));
+    {
+        return View('users.dashboard');
+    }));
 });
 ```
 
@@ -245,3 +247,12 @@ class AuthController extends Controller
 -  https://bhavyanshu.me/tutorials/easy-user-registration-and-authentication-in-laravel-5/09/24/2015/
 -  http://laravelacademy.org/post/1258.html
 -  https://phphub.org/topics/804
+-  https://mattstauffer.co/blog/login-throttling-in-laravel-5.1
+-  https://github.com/lstables/infinety
+-  https://github.com/lstables/laravel-shop
+-  https://github.com/lstables/laravel-bootstrapper
+-  https://github.com/lstables/laravel-api-generator   
+-  [Laravel Repository 模式](http://www.tuicool.com/articles/Mbimyy)
+-  https://github.com/BootstrapCMS/CMS
+-  http://laravelacademy.org/post/1359.html
+-  https://phphub.org/topics/519
